@@ -116,7 +116,7 @@ public class BeanPropertyComparator<T>
      * If no {@link java.util.Comparator} is given, and neither <CODE>o1</CODE>
      * or <CODE>o2</CODE> implement {@link java.lang.Comparable} then the
      * objects are converted to a <CODE>String</CODE> using the
-     * {@link java.lang.String#valueOf} method (which calls
+     * {@link java.lang.String#valueOf(Object)} method (which calls
      * {@link java.lang.Object#toString}), and standard <CODE>String</CODE>
      * comparison is performed.
      *
@@ -130,7 +130,7 @@ public class BeanPropertyComparator<T>
      * @throws IllegalArgumentException if there is no property named
      *                                  <I>property</I> or there is a problem accessing it with the
      *                                  <CODE>PropertyDescriptor</CODE>
-     * @see com.statcom.util.beans.BeanPropertyUtil
+     * @see com.acidblue.beans.BeanPropertyUtil
      */
     @SuppressWarnings("unchecked")
     public int compare(final T o1, final T o2) throws IllegalArgumentException {
@@ -159,4 +159,16 @@ public class BeanPropertyComparator<T>
         
         return value;
     }
+
+    /**
+     * Factory method for creating bean property comparators.
+     *
+     * @param property A valid property name
+     * @param <T> type the comparator expects
+     * @return A new comparator
+     */
+    public static <T> Comparator<T> create(final String property) {
+        return new BeanPropertyComparator<T>(property);
+    }
+
 }

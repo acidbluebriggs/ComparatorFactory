@@ -23,7 +23,7 @@
           description="compile the source ">
 
     <!-- Compile the java code from ${src} into ${build} -->
-    <javac srcdir="${src}" destdir="${build}" target="1.4" source="1.4"/>
+    <javac srcdir="${src}" destdir="${build}" target="1.6" source="1.6"/>
 
   </target>
 

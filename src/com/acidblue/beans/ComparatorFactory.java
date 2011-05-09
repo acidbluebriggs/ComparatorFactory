@@ -26,7 +26,7 @@ public final class ComparatorFactory {
      * @param propertyName property name the comparator will compare to
      * @return A comparator instance
      */
-    public static <T> Comparator<T> getComparator(final String propertyName) {
+    public static <T> Comparator<T> create(final String propertyName) {
 
         if (propertyName == null) {
             throw new IllegalArgumentException("propertyName cannot be null");
@@ -44,8 +44,8 @@ public final class ComparatorFactory {
      * @param rest any other comparators to be added (order is preserved)
      * @return a comparator instance
      */
-    public static <T> Comparator<T> getComparator(final String first, final String next,
-                                                  final String ... rest) {
+    public static <T> Comparator<T> create(final String first, final String next,
+                                           final String... rest) {
 
         if (first == null) {
             throw new NullPointerException("first was null");
@@ -76,8 +76,8 @@ public final class ComparatorFactory {
      * @param <T>   The type in the comparator
      * @return A new composite comparator
      */
-    public static <T> Comparator<T> getComparator(final Comparator<T> first, final Comparator<T> next,
-                                                  final Comparator<T> ... rest) {
+    public static <T> Comparator<T> create(final Comparator<T> first, final Comparator<T> next,
+                                           final Comparator<T>... rest) {
 
         if (first == null) {
             throw new NullPointerException("first was null");

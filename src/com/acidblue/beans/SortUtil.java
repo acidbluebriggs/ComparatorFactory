@@ -68,7 +68,7 @@ public final class SortUtil {
 
     public static <E> void sort(final List<E> target, String propertyName) {
 
-        Collections.sort(target, ComparatorFactory.getComparator(propertyName));
+        Collections.sort(target, ComparatorFactory.create(propertyName));
     }
 
 
@@ -82,6 +82,6 @@ public final class SortUtil {
      */
     public static <E> void sort(final List<E> target, final String majorProperty, final String minorProperty) {
 
-        Collections.sort(target, ComparatorFactory.getComparator(majorProperty, minorProperty));
+        Collections.sort(target, ComparatorFactory.create(majorProperty, minorProperty));
     }
 }
