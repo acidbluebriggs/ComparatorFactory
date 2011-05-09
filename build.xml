@@ -1,0 +1,80 @@
+<project name="BeanSorter" default="dist" basedir=".">
+  <description>
+    JavaBean Sorting Utilities
+  </description>
+
+  <propertyfile file="build.properties"/>
+
+  <!-- set global properties for this build -->
+  <property name="src" location="src"/>
+  <property name="build" location="build"/>
+  <property name="dist" location="dist"/>
+  <property name="docs" location="docs"/>
+
+  <target name="init">
+
+    <!-- Create the time stamp -->
+    <tstamp/>
+    <!-- Create the build directory structure used by compile -->
+    <mkdir dir="${build}"/>
+  </target>
+
+  <target name="compile" depends="init"
+          description="compile the source ">
+
+    <!-- Compile the java code from ${src} into ${build} -->
+    <javac srcdir="${src}" destdir="${build}" target="1.4" source="1.4"/>
+
+  </target>
+
+  <target name="dist" depends="compile"
+          description="generate the distribution">
+    <!-- Create the distribution directory -->
+    <mkdir dir="${dist}/lib"/>
+
+    <!-- Put everything in ${build} into the MyProject-${DSTAMP}.jar file -->
+    <!--<jar jarfile="${dist}/lib/MyProject-${DSTAMP}.jar" basedir="${build}"/>-->
+    <jar jarfile="${dist}/lib/jbsort-1.0.jar" basedir="${build}">
+      <manifest>
+        <attribute name="Extension-Name" value="Acidblue JavaBean Sorting Utility"/>
+        <attribute name="Specification-Title"
+                   value="JavaBean Sorting Utilities"/>
+        <attribute name="Specification-Vendor" value="Acidblue.com"/>
+        <attribute name="Specification-Version" value="1.0"/>
+        <attribute name="Implementation-Vendor" value="Acidblue.com"/>
+        <attribute name="Implementation-Title"
+                   value="com.acidblue.beans.BeansSorting"/>
+        <attribute name="Implementation-Version" value="1.0"/>
+      </manifest>
+    </jar>
+
+  </target>
+
+  <target name="javadoc">
+    <javadoc packagenames="*"
+             sourcepath="${src}"
+             defaultexcludes="yes"
+             destdir="${docs}/api"
+             author="true"
+             version="true"
+             use="true"
+             windowtitle="Acidblue JavaBeans sorting Utility">
+      <doctitle>
+        <![CDATA[<h1>JavaBean Sorting Utilities</h1>]]></doctitle>
+      <tag name="todo" scope="all" description="To do:"/>
+      <link offline="true" href="http://java.sun.com/products/jdk/1.4/docs/api/"
+            packagelistLoc="/tmp" />
+    </javadoc>
+  </target>
+
+  <target name="clean"
+          description="clean up">
+    <!-- Delete the ${build} and ${dist} directory trees -->
+    <delete dir="${build}"/>
+    <delete dir="${dist}"/>
+    <delete dir="${docs}/api" />
+    <delete dir="${tmp}"/>
+  </target>
+
+
+</project>
