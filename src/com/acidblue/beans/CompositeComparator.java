@@ -5,9 +5,9 @@ import java.util.Comparator;
 /**
  * Allows two comparators to be merged together.
  * <p/>
- * Allows two compatarators to be merged, so that if the major comparator
+ * Allows two comparators to be merged, so that if the major comparator
  * returns equal, the other comparator is used. This can then be used to form
- * composite comparaisons.
+ * composite comparisons.
  * <p/>
  * <P><B>Example</B> <PRE> java.util.Collections.sort(list, new
  * CompositeComparator( new BeanPropertyComparator("lastName"), new
@@ -21,17 +21,16 @@ import java.util.Comparator;
  * @version 2.0
  * @see BeanPropertyComparator
  */
-public class CompositeComparator
-        implements Comparator
-{
+public class CompositeComparator<T>
+        implements Comparator<T> {
     /**
      * The major comparator.
      */
-    private Comparator major;
+    private final Comparator<T> major;
     /**
      * The minor comparator.
      */
-    private Comparator minor;
+    private final Comparator<T> minor;
 
 
     /**
@@ -41,8 +40,16 @@ public class CompositeComparator
      * @param major the most significant comparator
      * @param minor the least significant comparator
      */
-    public CompositeComparator(Comparator major, Comparator minor)
-    {
+    public CompositeComparator(final Comparator<T> major, final Comparator<T> minor) {
+
+        if (major == null) {
+            throw new NullPointerException("major was null");
+        }
+
+        if (minor == null) {
+            throw new NullPointerException("minor was null");
+        }
+
         this.major = major;
         this.minor = minor;
     }
@@ -56,27 +63,20 @@ public class CompositeComparator
      *
      * @param o1 the object to compare
      * @param o2 the object to compare to
-     *
      * @return <pre>
-     *         int result = major.compare(o1,o2);
-     *         if (result != 0) {
-     *           return result;
-     *         } else {
-     *           return minor.compare(o1,o2);
-     *         }
-     *         </pre>
+     *                 int result = major.compare(o1,o2);
+     *                 if (result != 0) {
+     *                   return result;
+     *                 } else {
+     *                   return minor.compare(o1,o2);
+     *                 }
+     *                 </pre>
      */
-    public int compare(Object o1, Object o2)
-    {
-        int result = major.compare(o1, o2);
-        if (result != 0)
-        {
-            return result;
-        }
-        else
-        {
-            return minor.compare(o1, o2);
-        }
+    public int compare(final T o1, final T o2) {
+
+        final int result = major.compare(o1, o2);
+
+        return result != 0 ? result : minor.compare(o1, o2);
     }
 
 }

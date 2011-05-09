@@ -46,9 +46,8 @@ import java.util.Comparator;
  * @author Alex Blewitt &lt;<I><A href="mailto:Alex.Blewitt@ioshq.com">Alex.Blewitt@ioshq.com</A></I>&gt;
  * @version 1.0
  */
-public class BeanPropertyComparator
-        implements Comparator
-{
+public class BeanPropertyComparator<T>
+        implements Comparator<T> {
 
     /**
      * The property name.
@@ -63,7 +62,7 @@ public class BeanPropertyComparator
      * Allows properties to be compared with different comparators. If this is not
      * provided, uses the object's own {@link Comparable} interface if it exists.
      */
-    private Comparator comparator;
+    private Comparator<T> comparator;
 
 
     /**
@@ -78,8 +77,8 @@ public class BeanPropertyComparator
      *
      * @param property the property name to use (starts with a lower case letter)
      */
-    public BeanPropertyComparator(final String property)
-    {
+    public BeanPropertyComparator(final String property) {
+
         this(property, null);
     }
 
@@ -97,23 +96,23 @@ public class BeanPropertyComparator
      *                   letter)
      * @param comparator the comparator to compare properties
      */
-    public BeanPropertyComparator(final String property,
-                                  final Comparator comparator)
-    {
+    public BeanPropertyComparator(final String property, final Comparator<T> comparator) {
+
         this.property = property;
         this.comparator = comparator;
     }
 
 
-    /** Compares the two objects using either the given
+    /**
+     * Compares the two objects using either the given
      * {@link java.util.Comparator} or using the {@link java.lang.Comparable}
      * interface.
-     *
+     * <p/>
      * If no {@link java.util.Comparator} is given during construction,
      * and either <CODE>o1</CODE> or <CODE>o2</CODE> implements
      * {@link java.lang.Comparable}, then it is cast to
      * {@link java.lang.Comparable} and compared with the other.
-     *
+     * <p/>
      * If no {@link java.util.Comparator} is given, and neither <CODE>o1</CODE>
      * or <CODE>o2</CODE> implement {@link java.lang.Comparable} then the
      * objects are converted to a <CODE>String</CODE> using the
@@ -123,47 +122,41 @@ public class BeanPropertyComparator
      *
      * @param o1 the object to compare
      * @param o2 the object to compare
-     * @return
-     * <DL>
-     * <DT>-1</DT><DD>if <CODE>o1</CODE> &lt; <CODE>o2</CODE></DD>
-     * <DT>0</DT><DD>if <CODE>o1</CODE> = <CODE>o2</CODE></DD>
-     * <DT>1</DT><DD>if <CODE>o1</CODE> &gt; <CODE>o2</CODE></DD>
-     * </DL>
+     * @return <DL>
+     *         <DT>-1</DT><DD>if <CODE>o1</CODE> &lt; <CODE>o2</CODE></DD>
+     *         <DT>0</DT><DD>if <CODE>o1</CODE> = <CODE>o2</CODE></DD>
+     *         <DT>1</DT><DD>if <CODE>o1</CODE> &gt; <CODE>o2</CODE></DD>
+     *         </DL>
      * @throws IllegalArgumentException if there is no property named
-     * <I>property</I> or there is a problem accessing it with the
-     * <CODE>PropertyDescriptor</CODE>
-     * @see com.acidblue.beans.BeanPropertyUtil#getProperty
+     *                                  <I>property</I> or there is a problem accessing it with the
+     *                                  <CODE>PropertyDescriptor</CODE>
+     * @see com.statcom.util.beans.BeanPropertyUtil
      */
-    public int compare(final Object o1, final Object o2)
-            throws IllegalArgumentException
-    {
+    @SuppressWarnings("unchecked")
+    public int compare(final T o1, final T o2) throws IllegalArgumentException {
 
         // Get the value of the properties
-        final Object p1 = BeanPropertyUtil.getProperty(property, o1);
-        final Object p2 = BeanPropertyUtil.getProperty(property, o2);
+        final T p1 = (T) BeanPropertyUtil.getProperty(property, o1);
+        final T p2 =  (T) BeanPropertyUtil.getProperty(property, o2);
 
-        if (comparator == null)
-        {
+        final int value;
+
+        if (comparator == null) {
             // try to find p1 or p2 that implements Comparator
-            if (p1 instanceof Comparable)
-            {
-                return ((Comparable)p1).compareTo(p2);
-            }
-            else if (p2 instanceof Comparable)
-            {
-                return ((Comparable)p2).compareTo(p1);
-            }
-            else
-            {
-                // we have no comparables; try String comparison
+            if (p1 instanceof Comparable) {
+                value = ((Comparable<T>) p1).compareTo(p2);
+            } else if (p2 instanceof Comparable) {
+                value = ((Comparable<T>) p2).compareTo(p1);
+            } else {
+                // we have no comparable instances; try String comparison
                 final String s1 = String.valueOf(p1); // calls toString safely
                 final String s2 = String.valueOf(p2);
-                return s1.compareTo(s2); // String implements comparable
+                value = s1.compareTo(s2); // String implements comparable
             }
+        } else {
+            value = comparator.compare(p1, p2);
         }
-        else
-        {
-            return comparator.compare(p1, p2);
-        }
-  }
+        
+        return value;
+    }
 }
