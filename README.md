@@ -12,7 +12,7 @@ The example above sorts items on last name, and then first name. Two beans with 
 
 ##SortUtil##
 -------------------------------
-A simple utility class for sorting collections based on its contained beans' properties.
+A simple utility class for sorting collections based on its contained bean's properties.
 
       //example bean
         public class PersonBean {
