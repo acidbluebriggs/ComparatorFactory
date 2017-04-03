@@ -1,8 +1,8 @@
-##CompositeComparator##
+## CompositeComparator ##
 -------------------------------
 Allows two comparators to be merged, so that if the major comparator returns equal, the other comparator is used. This can then be used to form composite comparisons.
 
-#Example:#
+# Example: #
 
         java.util.Collections.sort(list, 
             new CompositeComparator(new BeanPropertyComparator("lastName"),
@@ -10,7 +10,7 @@ Allows two comparators to be merged, so that if the major comparator returns equ
 
 The example above sorts items on last name, and then first name. Two beans with the same last name will then be sorted on first name.
 
-##SortUtil##
+## SortUtil ##
 -------------------------------
 A simple utility class for sorting collections based on its contained bean's properties.
 
@@ -50,11 +50,11 @@ A simple utility class for sorting collections based on its contained bean's pro
         SortUtil.sort(people, "lastname", "firstName");
         
         
-##ComparatorFactory##
+## ComparatorFactory ##
 
 The comparator factory can also create comparators based on bean property names.
 
-#Example:#
+# Example: #
 
         final Comparator firstNameComparator = ComparatorFoctory.getComparator("firstName");
         
