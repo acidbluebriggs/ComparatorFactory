@@ -26,7 +26,7 @@ public final class BeanPropertyUtil {
     /**
      * Stores the list of class/property names with associated read methods
      */
-    private static Map<String, Method> map = new WeakHashMap<String, Method>();
+    private static final Map<String, Method> map = new WeakHashMap<>();
 
 
     /**
@@ -43,7 +43,7 @@ public final class BeanPropertyUtil {
      * @see java.beans.Introspector
      * @see java.beans.PropertyDescriptor
      * @see java.beans.PropertyDescriptor#getReadMethod
-     * @see java.lang.reflect.Method#invoke
+
      */
     public static Object getProperty(final String name,
                                      final Object instance)

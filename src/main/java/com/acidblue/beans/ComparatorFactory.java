@@ -15,9 +15,7 @@ public final class ComparatorFactory {
     /**
      * Private constructor due to this class being a singleton/utility
      */
-    private ComparatorFactory() {
-
-    }
+    private ComparatorFactory() {}
 
 
     /**
@@ -27,7 +25,6 @@ public final class ComparatorFactory {
      * @return A comparator instance
      */
     public static <T> Comparator<T> create(final String propertyName) {
-
         if (propertyName == null) {
             throw new IllegalArgumentException("propertyName cannot be null");
         }
@@ -46,7 +43,6 @@ public final class ComparatorFactory {
      */
     public static <T> Comparator<T> create(final String first, final String next,
                                            final String... rest) {
-
         if (first == null) {
             throw new NullPointerException("first was null");
         }
@@ -76,6 +72,7 @@ public final class ComparatorFactory {
      * @param <T>   The type in the comparator
      * @return A new composite comparator
      */
+    @SafeVarargs
     public static <T> Comparator<T> create(final Comparator<T> first, final Comparator<T> next,
                                            final Comparator<T>... rest) {
 

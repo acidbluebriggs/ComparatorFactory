@@ -1,6 +1,5 @@
 package com.acidblue.beans;
 
-import java.util.Collections;
 import java.util.List;
 
 /**
@@ -68,7 +67,7 @@ public final class SortUtil {
 
     public static <E> void sort(final List<E> target, String propertyName) {
 
-        Collections.sort(target, ComparatorFactory.create(propertyName));
+        target.sort(ComparatorFactory.create(propertyName));
     }
 
 
@@ -82,6 +81,6 @@ public final class SortUtil {
      */
     public static <E> void sort(final List<E> target, final String majorProperty, final String minorProperty) {
 
-        Collections.sort(target, ComparatorFactory.create(majorProperty, minorProperty));
+        target.sort(ComparatorFactory.create(majorProperty, minorProperty));
     }
 }

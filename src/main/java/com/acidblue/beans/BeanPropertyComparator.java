@@ -54,7 +54,7 @@ public class BeanPropertyComparator<T>
      * <p/>
      * Must start with a lower-case letter as per the JavaBeans specification.
      */
-    private String property;
+    private final String property;
 
     /**
      * The alternative comparator to use.
@@ -62,7 +62,7 @@ public class BeanPropertyComparator<T>
      * Allows properties to be compared with different comparators. If this is not
      * provided, uses the object's own {@link Comparable} interface if it exists.
      */
-    private Comparator<T> comparator;
+    private final Comparator<T> comparator;
 
 
     /**
