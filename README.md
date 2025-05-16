@@ -4,9 +4,15 @@ Allows two comparators to be merged, so that if the major comparator returns equ
 
 # Example: #
 
-        java.util.Collections.sort(list, 
-            new CompositeComparator(new BeanPropertyComparator("lastName"),
-                new BeanPropertycComparator("firstName") ) ); 
+```java
+// people being some sort of collection
+people.sort(new CompositeComparator(
+  new BeanPropertyComparator("lastName"), 
+  new BeanPropertyComparator("firstName")
+));
+```
+
+ 
 
 The example above sorts items on last name, and then first name. Two beans with the same last name will then be sorted on first name.
 
