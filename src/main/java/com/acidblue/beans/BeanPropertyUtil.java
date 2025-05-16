@@ -78,16 +78,33 @@ public final class BeanPropertyUtil {
      * @throws IntrospectionException   if this method attempt to read an unreadable property
      * @throws IllegalArgumentException if the property given cannot be found in the given instance
      */
-    private static Method getReadMethod(final String name,
-                                        final Object instance)
-            throws IllegalArgumentException, IntrospectionException {
+//    private static Method getReadMethod(final String name,
+//                                        final Object instance)
+//            throws IllegalArgumentException, IntrospectionException {
+//
+//        final String id = instance.getClass() + "#" + name;
+//
+//        if (!map.containsKey(id)) {
+//            return locateMethod(instance, name);
+//        } else {
+//            throw new IllegalArgumentException(String.format("Cannot find instance with property '%s'", name));
+//        }
+//    }
 
-        final String id = instance.getClass() + "#" + name;
+    public static Method getReadMethod(final String name, final Object instance) {
+        try {
+            // First try the traditional JavaBean getter pattern
+            String capitalizedName = name.substring(0, 1).toUpperCase() + name.substring(1);
+            String getterName = "get" + capitalizedName;
 
-        if (!map.containsKey(id)) {
-            return locateMethod(instance, name);
-        } else {
-            throw new IllegalArgumentException(String.format("Cannot find instance with property '%s'", name));
+            try {
+                return instance.getClass().getMethod(getterName);
+            } catch (NoSuchMethodException e) {
+                // If traditional getter isn't found, try Record pattern
+                return instance.getClass().getMethod(name);
+            }
+        } catch (NoSuchMethodException e) {
+            return null;
         }
     }
 
